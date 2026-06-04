@@ -35,20 +35,4 @@ const ordersSchema = mongoose.Schema(
   }
 );
 
-// Middleware to validate product stock before saving the order
-ordersSchema.pre('save', async function (next) {
-  const product_id = this.product.product_id;
-  const quantity = this.product.quantity;
-
-  const product = await productRepository.findOne({ _id: product_id });
-  if (!product) throw new Error('Product not found');
-
-  if (product.stock < quantity) throw new Error('Insufficient stock');
-
-  await productRepository.updateOne(
-    { _id: product_id },
-    { $inc: { stock: -quantity } }
-  );
-});
-
 module.exports = mongoose.model('Orders', ordersSchema);

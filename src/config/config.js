@@ -16,7 +16,7 @@ const config = {
   JWT_AUDIENCE: process.env.JWT_AUDIENCE || 'miapp.com',
 
   // Database (MongoDB)
-  DATABASE_URL: process.env.MONGO_URI || '',
+  MONGO_URI: process.env.MONGO_URI || '',
 
   // Bcrypt salt rounds
   BCRYPT_SALT_ROUNDS: process.env.BCRYPT_SALT_ROUNDS || 10

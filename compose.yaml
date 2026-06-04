@@ -1,31 +1,51 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: node-app
-    ports:
-      - '${PORT}:${PORT}'
-    env_file:
-      - .env
-    depends_on:
-      - mongo
-    volumes:
-      - .:/app
-      - /app/node_modules
-
   mongo:
     image: mongo:8
     container_name: mongo-db
+    command: >
+      mongod --replSet my-replica-set --bind_ip_all
     ports:
       - '27017:27017'
-    env_file:
-      - .env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 5s
+      timeout: 10s
+      retries: 30
+
+  mongo-init:
+    image: mongo:8
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: 'no'
+    entrypoint:
+      - bash
+      - -c
+      - |
+        mongosh --host mongo:27017 --eval '
+        try {
+          rs.status()
+        } catch (e) {
+          rs.initiate({
+            _id: "my-replica-set",
+            members: [
+              { _id: 0, host: "mongo:27017" }
+            ]
+          })
+        }
+        '
+
+  app:
+    build: .
+    depends_on:
+      mongo:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - '${PORT}:${PORT}'
 
 volumes:
   mongo_data:

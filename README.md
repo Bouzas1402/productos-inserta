@@ -29,18 +29,19 @@ y MongoDB.
 git clone https://github.com/Bouzas1402/productos-inserta.git
 ```
 
-2. Levantar los contenedores de docker
+2. Ir a la raiz del proyecto y levantar los contenedores de docker
 
 ```bash
 docker compose up --build
 ```
 
+3. La base de datos comienza con un usuario admin que depende de las variables `ADMIN_EMAIL` y `ADMIN_PASSWORD`
+
 ## Variables de entorno (ejemplos)
 
 - `NODE_ENV` - variable para saber en que modo se levanta el proyecto
 - `PORT` - puerto de la aplicación
-- `DATABASE_URL` - URI de MongoDB
-- `MONGO_INITDB_ROOT_USERNAME`, `MONGO_INITDB_ROOT_PASSWORD`, `MONGO_DB` - variables de configaración de la base de datos
+- `MONGO_URI` - URI de MongoDB
 - `JWT_SECRET`, `JWT_EXPIRE`, `JWT_ISSUER`, `JWT_AUDIENCE` - variables para json web token
 - `ADMIN_EMAIL`, `ADMIN_PASSWORD` - variables para crear el primer usuario admin de la base de datos
 - `BCRYPT_SALT_ROUNDS` - salt para la encriptacion de la contraseña
@@ -53,13 +54,8 @@ Ejemplo de archivo `.env` con todas las variables usadas por el proyecto:
 NODE_ENV=development
 PORT=3001
 
-# MongoDB
-MONGO_INITDB_ROOT_USERNAME=admin
-MONGO_INITDB_ROOT_PASSWORD=secret123
-MONGO_DB=appdb
-
 # Cadena de conexión para la aplicación
-MONGO_URI=mongodb://admin:secret123@mongo:27017/appdb?authSource=admin
+MONGO_URI=mongodb://mongo:27017/appdb?replicaSet=my-replica-set
 
 # Unit user admin
 ADMIN_EMAIL=admin@admin.com

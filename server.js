@@ -8,7 +8,7 @@ const config = require('./src/config/config');
 // Connect to the MongoDB database
 async function connectDatabase() {
   try {
-    await mongoose.connect(config.DATABASE_URL, { socketTimeoutMS: 45000 });
+    await mongoose.connect(config.MONGO_URI, { socketTimeoutMS: 45000 });
     console.log('✅ MongoDB connected successfully');
     console.log(`📡 Database: ${mongoose.connection.name}`);
     console.log(`🏠 Host: ${mongoose.connection.host}`);

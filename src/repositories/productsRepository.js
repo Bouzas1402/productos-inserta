@@ -60,16 +60,19 @@ const findAll = async (conditions = {}, options = {}) => {
 /**
  * Find all products without pagination
  * @param {Object} [conditions={}] - MongoDB query conditions
- * @param {Object} [data={}] - Data to update
+ * @param {Object} [data] - Data to update
+ * @param {Object} [session] - session mongoose
  * @returns {Object|null} Updated product document or null
  * @throws {Error} If the query fails.
  */
-const updateOne = async (conditions = {}, data) => {
+const updateOne = async (conditions = {}, data, session) => {
   try {
     let query = Products.findOneAndUpdate(conditions, data, {
-      new: true,
+      returnDocument: 'after',
       runValidators: true
     });
+
+    if (session) query = query.session(session);
 
     return await query.exec();
   } catch (error) {

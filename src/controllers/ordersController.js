@@ -32,7 +32,7 @@ const create = async (req, res) => {
     if (error.message.includes('Insufficient stock')) {
       return ApiResponse.conflict(res, 'Insufficient stock');
     }
-    return ApiResponse.error(res, 'Error retrieving transactions');
+    return ApiResponse.error(res, 'Error create order');
   }
 };
 

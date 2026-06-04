@@ -30,7 +30,7 @@ const productsSchema = mongoose.Schema(
     stock: {
       type: Number,
       required: true,
-      min: [1, 'El stock debe ser al menos 1']
+      min: [1, 'The stock must be at least 1']
     }
   },
   {
@@ -39,5 +39,21 @@ const productsSchema = mongoose.Schema(
     toJSON: { virtuals: true }
   }
 );
+
+productsSchema.pre('findOneAndUpdate', async function () {
+  console.log(this);
+  const updateData = this.getUpdate();
+  if (updateData.$inc?.stock) {
+    const updateData = this.getUpdate();
+
+    const conditions = this.getQuery();
+    const currentData = await this.model.findOne(conditions);
+
+    const currentStock = currentData.stock;
+    const updateStock = updateData.$inc?.stock;
+    console.log('ok', updateData.$inc?.stock, currentData.stock);
+    if (currentStock + updateStock < 0) throw new Error('Insufficient stock');
+  }
+});
 
 module.exports = mongoose.model('Products', productsSchema);
