@@ -43,9 +43,9 @@ const register = async data => {
   try {
     const { email, password } = data;
 
-    const user = await userRepository.create({ email, password }, session);
+    const user = await userRepository.create({ email, password });
 
-    const token = await generateTokena({
+    const token = await generateToken({
       userId: user.id,
       email,
       role: user.role
@@ -53,7 +53,7 @@ const register = async data => {
 
     return { user, token };
   } catch (error) {
-    throw new Error(`Error creating admin user: ${error.message}`);
+    throw new Error(`Error creating user: ${error.message}`);
   }
 };
 
