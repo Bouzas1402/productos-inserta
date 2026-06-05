@@ -73,7 +73,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"email\": \"carlos@gmail.com\",\r\n    \"password\": \"user123\"\r\n}",
+                  "raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"admin123\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -257,7 +257,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"product_id\": \"6a2064581f4a46a47be71bc8\",\r\n    \"quantity\": 1    \r\n}",
+                  "raw": "{\r\n    \"product_id\": \"\",\r\n    \"quantity\": 1    \r\n}",
                   "options": {
                     "raw": {
                       "language": "json"

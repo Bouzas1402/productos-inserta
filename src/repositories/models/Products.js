@@ -24,7 +24,6 @@ const productsSchema = mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      unique: true,
       min: 0
     },
     stock: {

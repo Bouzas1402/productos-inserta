@@ -15,6 +15,8 @@ y MongoDB.
 
 - El propio modelo ya crea un atributo createdAt y updatedAt así que no ví necesario crear order_date ya que habría información redundate
 - Se opto por los pre hooks para hashear las contraseña antes de guardar los usuarios
+- Los usuarios ADMIN_ROLE solo los pueden crear otros usuarios ADMIN_ROLE si no el usuario se creare directamente como CUSTOMER_ROLE
+- La busqueda de productos tiene los filtros de stock y price
 
 ## Requisitos
 
@@ -76,7 +78,7 @@ BCRYPT_SALT_ROUNDS=12
 
 ## Uso / Endpoints
 
-La API expone rutas para autenticación, productos y pedidos. Consultar
+La API expone rutas para autenticación, creacion de usuarios, productos y orders. Consultar
 el código en `src/routes` para detalles de cada endpoint.
 
 ## Colección Postman
@@ -88,3 +90,5 @@ el código en `src/routes` para detalles de cada endpoint.
 - Enlace directo en GitHub para descarga automatizada:
 
   https://raw.githubusercontent.com/Bouzas1402/productos-inserta/main/productos-inserta.postman_collection.json
+
+- Hay un script que hace que rellene la variable token
